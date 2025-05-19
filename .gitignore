@@ -1,0 +1,75 @@
+# Arquivos de sistema macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Miniaturas
+._*
+
+# Arquivos que podem aparecer na raiz do volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Diretórios potencialmente criados na raiz remota do AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Arquivos do Xcode
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.xcuserstate
+project.xcworkspace/
+!default.xcworkspace/
+
+# Swift Package Manager
+.build/
+Packages/
+Package.pins
+Package.resolved
+.swiftpm/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+Carthage/Checkouts
+
+# Arquivos compilados Swift
+*.o
+*.LinkFileList
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Output dos testes de cobertura
+coverage.txt
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Logs e bancos de dados
+*.log
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Caches vários do macOS
+*.swp
+*.lock
+*~ 
