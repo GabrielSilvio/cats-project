@@ -7,7 +7,7 @@ final class CatsListViewModel: ObservableObject {
 
     private let useCase: FetchCatsUseCaseProtocol
     private var skip = 0
-    private let limit = 10
+    private let limit = 20
     private var finished = false
 
     init(useCase: FetchCatsUseCaseProtocol = FetchCatsUseCase()) {
@@ -24,7 +24,7 @@ final class CatsListViewModel: ObservableObject {
             if cats.isEmpty { finished = true; return }
             let newRows = cats.map { CatRowUIModel(from: $0) }
             rows.append(contentsOf: newRows)
-            skip += 1
+            skip += limit
         case .failure:
             finished = true
         }
