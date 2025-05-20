@@ -27,11 +27,6 @@ struct CatGridItemView: View {
                 .font(.caption2)
                 .foregroundColor(.accentColor)
                 .lineLimit(1)
-            if uiModel.tagsText == "No tags" {
-                Text(uiModel.fallbackText)
-                    .font(.caption2)
-                    .foregroundColor(.gray)
-            }
         }
         .padding(8)
         .background(

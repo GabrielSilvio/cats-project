@@ -5,12 +5,17 @@ struct CatDetailUIModel {
     let imageURL: URL?
     let tagsText: String
     let createdAtText: String
+    let mimetypeText: String
+    let idText: String
+    let fallbackText: String
 
-    init(from summary: CatSummary) {
-        id = summary.id
-        let ext = summary.mimetype.components(separatedBy: "/").last ?? "jpg"
-        imageURL = URL(string: "https://cataas.com/cat/\(summary.id).\(ext)")
-        tagsText = summary.tags.joined(separator: ", ")
-        createdAtText = DateFormatterHelper.formatISO8601String(summary.createdAt, dateStyle: .full, timeStyle: .short, locale: Locale(identifier: "en_US_POSIX"))
+    init(from entity: CatDetailEntity) {
+        id = entity.id
+        imageURL = URL(string: entity.url)
+        tagsText = entity.tags.isEmpty ? "Sem tags" : entity.tags.joined(separator: ", ")
+        createdAtText = entity.createdAt != nil ? DateFormatterHelper.formatISO8601String(entity.createdAt!, dateStyle: .full, timeStyle: .short, locale: Locale(identifier: "en_US_POSIX")) : "Data desconhecida"
+        mimetypeText = "Tipo: \(entity.mimetype)"
+        idText = "ID: \(entity.id)"
+        fallbackText = "Informação não disponível"
     }
 }

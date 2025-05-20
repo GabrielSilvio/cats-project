@@ -2,25 +2,27 @@ import SwiftUI
 
 @MainActor
 struct CatDetailCoordinator: Coordinator {
-    let summary: CatSummary
-    @Namespace private var animation
+    let id: String
     @State private var showDetail: Bool = true
     
     func start() -> some View {
-        CatDetailCoordinatorView(summary: summary, animation: animation)
+        CatDetailCoordinatorView(id: id)
     }
 }
 
 private struct CatDetailCoordinatorView: View {
-    let summary: CatSummary
-    var animation: Namespace.ID
+    let id: String
     @State private var show: Bool = true
+    @StateObject private var viewModel: CatDetailViewModel
+    
+    init(id: String) {
+        self.id = id
+        _viewModel = StateObject(wrappedValue: CatDetailViewModel(id: id))
+    }
     
     var body: some View {
         CatDetailView(
-            uiModel: CatDetailAnimatedModel(from: summary),
-            animation: animation,
-            show: $show
+            viewModel: viewModel
         )
     }
 }

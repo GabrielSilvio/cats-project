@@ -13,7 +13,7 @@ struct CatsListCoordinator: Coordinator {
     }
 
     private struct CatsListFlow: View {
-        @State private var path = NavigationPath()
+        @State private var selectedCat: CatSummary?
         @StateObject private var viewModel: CatsListViewModel
 
         init(useCase: FetchCatsUseCaseProtocol) {
@@ -21,12 +21,12 @@ struct CatsListCoordinator: Coordinator {
         }
 
         var body: some View {
-            NavigationStack(path: $path) {
+            NavigationStack {
                 CatsListView(viewModel: viewModel) { summary in
-                    path.append(summary)
+                    selectedCat = summary
                 }
-                .navigationDestination(for: CatSummary.self) { summary in
-                    CatDetailCoordinator(summary: summary).start()
+                .sheet(item: $selectedCat) { summary in
+                    CatDetailCoordinator(id: summary.id).start()
                 }
             }
             .onAppear {

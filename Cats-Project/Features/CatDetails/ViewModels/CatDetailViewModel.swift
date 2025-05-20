@@ -3,21 +3,28 @@ import SwiftUI
 
 @MainActor
 final class CatDetailViewModel: ObservableObject {
-    private let summary: CatSummary
+    @Published var uiModel: CatDetailUIModel?
+    @Published var isLoading: Bool = false
+    @Published var error: String?
     
-    let id: String
-    let imageURL: URL
-    let mimetype: String
-    let tags: [String]
-    let createdAtFormatted: String
+    private let useCase: FetchCatDetailUseCaseProtocol
+    private let id: String
     
-    init(summary: CatSummary) {
-        self.summary = summary
-        self.id = summary.id
-        let ext = summary.mimetype.components(separatedBy: "/").last ?? "jpg"
-        self.imageURL = URL(string: "https://cataas.com/cat/\(summary.id).\(ext)")!
-        self.mimetype = summary.mimetype
-        self.tags = summary.tags.map { $0.capitalized }
-        self.createdAtFormatted = DateFormatterHelper.formatISO8601String(summary.createdAt, dateStyle: .long, timeStyle: .short, locale: Locale(identifier: "en_US"))
+    init(id: String, useCase: FetchCatDetailUseCaseProtocol = FetchCatDetailUseCase()) {
+        self.id = id
+        self.useCase = useCase
+    }
+    
+    func fetch() async {
+        isLoading = true
+        error = nil
+        let result = await useCase.execute(id: id)
+        switch result {
+        case .success(let entity):
+            self.uiModel = CatDetailUIModel(from: entity)
+        case .failure(let err):
+            self.error = err.localizedDescription
+        }
+        isLoading = false
     }
 }
