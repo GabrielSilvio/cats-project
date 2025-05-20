@@ -2,7 +2,7 @@ import Foundation
 
 @MainActor
 final class CatsListViewModel: ObservableObject {
-    @Published private(set) var rows: [CatRowUIModel] = []
+    @Published private(set) var cats: [CatSummary] = []
     @Published var isLoading = false
 
     private let useCase: FetchCatsUseCaseProtocol
@@ -22,8 +22,7 @@ final class CatsListViewModel: ObservableObject {
         switch result {
         case .success(let cats):
             if cats.isEmpty { finished = true; return }
-            let newRows = cats.map { CatRowUIModel(from: $0) }
-            rows.append(contentsOf: newRows)
+            self.cats.append(contentsOf: cats)
             skip += limit
         case .failure:
             finished = true
@@ -33,7 +32,7 @@ final class CatsListViewModel: ObservableObject {
     func refresh() async {
         skip = 0
         finished = false
-        rows = []
+        cats = []
         await loadNextPage()
     }
 }
