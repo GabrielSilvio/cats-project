@@ -11,16 +11,6 @@ struct CatDetailUIModel {
         let ext = summary.mimetype.components(separatedBy: "/").last ?? "jpg"
         imageURL = URL(string: "https://cataas.com/cat/\(summary.id).\(ext)")
         tagsText = summary.tags.joined(separator: ", ")
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateStyle = .full
-        formatter.timeStyle = .short
-        let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        if let date = isoFormatter.date(from: summary.createdAt) {
-            createdAtText = formatter.string(from: date)
-        } else {
-            createdAtText = "Invalid date"
-        }
+        createdAtText = DateFormatterHelper.formatISO8601String(summary.createdAt, dateStyle: .full, timeStyle: .short, locale: Locale(identifier: "en_US_POSIX"))
     }
 }
