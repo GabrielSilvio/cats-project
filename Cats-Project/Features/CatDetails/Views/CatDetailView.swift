@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct CatDetailView: View {
     @ObservedObject var viewModel: CatDetailViewModel
@@ -6,25 +7,12 @@ struct CatDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                AsyncImage(url: viewModel.imageURL) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else if phase.error != nil {
-                        Image(systemName: "photo")
-                            .imageScale(.large)
-                            .frame(maxWidth: .infinity, minHeight: 300)
-                            .background(Color.gray.opacity(0.1))
-                    } else {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 300)
-                            .background(Color.gray.opacity(0.1))
-                    }
-                }
-                .frame(maxWidth: .infinity, minHeight: 300)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .shadow(radius: 5)
+                KFImage(viewModel.imageURL)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: .infinity, minHeight: 300)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(radius: 5)
                 
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Information")
